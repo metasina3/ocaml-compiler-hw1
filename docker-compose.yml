@@ -2,13 +2,20 @@ version: '3.8'
 
 services:
   ocaml-test:
-    build:
-      context: .
-      dockerfile: Dockerfile.test
+    # Use pre-built image from Docker Hub
+    image: metasina3/ocaml-compiler-hw1:latest
     container_name: ocaml-hw1
-    volumes:
-      - .:/workspace
-    working_dir: /workspace
+    # Optional: override command to run tests
+    command: sh -c "eval $(opam env) && make test"
+    # Optional: mount local directory for development
+    # volumes:
+    #   - .:/workspace
+    # working_dir: /workspace
+    
+  ocaml-test-versioned:
+    # Use specific version
+    image: metasina3/ocaml-compiler-hw1:v1.0.0
+    container_name: ocaml-hw1-v1
     command: sh -c "eval $(opam env) && make test"
     
   web-server:
@@ -22,4 +29,15 @@ services:
     command: python3 -m http.server 8000
     stdin_open: true
     tty: true
+    
+  ocaml-interactive:
+    # Interactive shell with OCaml environment
+    image: metasina3/ocaml-compiler-hw1:latest
+    container_name: ocaml-interactive
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    command: /bin/bash
 
