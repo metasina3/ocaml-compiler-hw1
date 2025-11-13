@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  ocaml-test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    container_name: ocaml-hw1
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    command: sh -c "eval $(opam env) && make test"
+    
+  web-server:
+    image: python:3.9-slim
+    container_name: ocaml-docs-server
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    command: python3 -m http.server 8000
+    stdin_open: true
+    tty: true
+

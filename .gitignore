@@ -1,0 +1,42 @@
+# Build artifacts
+_build/
+*.exe
+*.cmo
+*.cmi
+*.cmx
+*.o
+*.a
+*.so
+*.dll
+
+# Executables
+oatc
+ocamlbin
+bin/main.exe
+
+# Editor files
+.vscode/
+.idea/
+*~
+*.swp
+*.swo
+.DS_Store
+
+# OCaml
+*.annot
+*.cmt
+*.cmti
+
+# Dune
+_build/
+
+# Docker
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+
+# OS files
+.DS_Store
+Thumbs.db

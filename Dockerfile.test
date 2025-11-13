@@ -1,0 +1,29 @@
+FROM ubuntu:20.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+# Install dependencies
+RUN apt-get update -y && \
+    apt-get install -y --no-install-recommends \
+    build-essential \
+    m4 \
+    opam \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Configure opam
+RUN opam init -y --disable-sandboxing --compiler=4.14.1 && \
+    opam switch 4.14.1 && \
+    opam install -y dune num && \
+    eval $(opam env)
+
+# Set working directory
+WORKDIR /workspace
+
+# Copy project files
+COPY . .
+
+# Build and test
+CMD ["sh", "-c", "eval $(opam env) && make test"]
+
